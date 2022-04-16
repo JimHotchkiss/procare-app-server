@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  resources :sub_sub_sections
+  resources :sub_sections
+  resources :sections
+  resources :instructions
   resources :cycle_times
   resources :takt_times
   resources :repairs

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_03_27_175716) do
+ActiveRecord::Schema[7.0].define(version: 2022_04_15_234250) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -21,10 +21,48 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_27_175716) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "instructions", force: :cascade do |t|
+    t.string "title"
+    t.integer "section_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "repairs", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "sections", force: :cascade do |t|
+    t.bigint "instruction_id"
+    t.string "title"
+    t.string "description"
+    t.integer "cycle_time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["instruction_id"], name: "index_sections_on_instruction_id"
+  end
+
+  create_table "sub_sections", force: :cascade do |t|
+    t.bigint "section_id"
+    t.string "title"
+    t.string "description"
+    t.integer "cycle_time"
+    t.integer "sub_sub_section_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["section_id"], name: "index_sub_sections_on_section_id"
+  end
+
+  create_table "sub_sub_sections", force: :cascade do |t|
+    t.bigint "sub_section_id"
+    t.string "title"
+    t.string "description"
+    t.integer "cycle_time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["sub_section_id"], name: "index_sub_sub_sections_on_sub_section_id"
   end
 
   create_table "takt_times", force: :cascade do |t|
@@ -34,4 +72,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_27_175716) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "sections", "instructions"
+  add_foreign_key "sub_sections", "sections"
+  add_foreign_key "sub_sub_sections", "sub_sections"
 end
