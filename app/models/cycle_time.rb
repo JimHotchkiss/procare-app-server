@@ -1,3 +1,3 @@
 class CycleTime < ApplicationRecord
-    belongs_to :takt_time
+    belongs_to :step
 end

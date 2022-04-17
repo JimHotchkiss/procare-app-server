@@ -4,7 +4,7 @@ class CreateSections < ActiveRecord::Migration[7.0]
       t.belongs_to :instruction, foreign_key: true
       t.string :title
       t.string :description
-      t.integer :cycle_time
+
       t.timestamps
     end
   end

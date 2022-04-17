@@ -1,2 +1,0 @@
-class SubSectionsController < ApplicationController
-end

@@ -3,9 +3,7 @@
 one:
   title: MyString
   description: MyString
-  cycle_time: 1
 
 two:
   title: MyString
   description: MyString
-  cycle_time: 1

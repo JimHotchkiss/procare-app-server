@@ -1,3 +1,3 @@
 class SectionSerializer < ActiveModel::Serializer
-  attributes :title, :description, :sub_sections
+  attributes :id, :title, :description
 end

@@ -10,15 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_15_234250) do
+ActiveRecord::Schema[7.0].define(version: 2022_04_17_142822) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "cycle_times", force: :cascade do |t|
+    t.bigint "step_id"
     t.integer "time"
-    t.integer "takt_time_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["step_id"], name: "index_cycle_times_on_step_id"
   end
 
   create_table "instructions", force: :cascade do |t|
@@ -28,49 +29,43 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_15_234250) do
   end
 
   create_table "repairs", force: :cascade do |t|
-    t.string "name"
+    t.bigint "instruction_id"
+    t.string "title"
+    t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["instruction_id"], name: "index_repairs_on_instruction_id"
   end
 
   create_table "sections", force: :cascade do |t|
     t.bigint "instruction_id"
     t.string "title"
     t.string "description"
-    t.integer "cycle_time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["instruction_id"], name: "index_sections_on_instruction_id"
   end
 
-  create_table "sub_sections", force: :cascade do |t|
-    t.bigint "section_id"
+  create_table "steps", force: :cascade do |t|
+    t.bigint "repair_id"
     t.string "title"
     t.string "description"
-    t.integer "cycle_time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["section_id"], name: "index_sub_sections_on_section_id"
-  end
-
-  create_table "sub_sub_sections", force: :cascade do |t|
-    t.bigint "sub_section_id"
-    t.string "title"
-    t.string "description"
-    t.integer "cycle_time"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["sub_section_id"], name: "index_sub_sub_sections_on_sub_section_id"
+    t.index ["repair_id"], name: "index_steps_on_repair_id"
   end
 
   create_table "takt_times", force: :cascade do |t|
+    t.bigint "repair_id"
     t.integer "time"
-    t.integer "repair_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["repair_id"], name: "index_takt_times_on_repair_id"
   end
 
+  add_foreign_key "cycle_times", "steps"
+  add_foreign_key "repairs", "instructions"
   add_foreign_key "sections", "instructions"
-  add_foreign_key "sub_sections", "sections"
-  add_foreign_key "sub_sub_sections", "sub_sections"
+  add_foreign_key "steps", "repairs"
+  add_foreign_key "takt_times", "repairs"
 end
