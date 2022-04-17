@@ -6,8 +6,6 @@ class CreateSubSections < ActiveRecord::Migration[7.0]
       t.string :description
       t.integer :cycle_time
 
-      t.integer :sub_sub_section_id
-
       t.timestamps
     end
   end

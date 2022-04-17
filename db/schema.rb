@@ -48,7 +48,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_15_234250) do
     t.string "title"
     t.string "description"
     t.integer "cycle_time"
-    t.integer "sub_sub_section_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["section_id"], name: "index_sub_sections_on_section_id"
